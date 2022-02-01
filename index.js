@@ -63,17 +63,28 @@ app.post('/api/persons', (request, response) => {
     const body = request.body
 
     // Send 400 bad request
-    if(!body.content) {
+    if(!body.name || !body.number) {
         return response.status(400).json({
             error: 'content missing'
         })
     }
 
+    persons.forEach(person => {
+        console.log(person)
+        if (person.name === body.name) {
+            return response.status(400).json({
+                error: 'name already exists in data base!'
+            })
+        }
+    })
+
     const person = {
+        id: generateId(1, 99999),
         name: body.name,
         number: body.number,
-        id: generateId(),
     }
+
+    console.log(person)
 
     persons = persons.concat(person)
     response.json(person)
@@ -92,14 +103,12 @@ app.delete('/api/persons/:id', (request, response) => {
 /****************************
  *          HELPERS         *
  ***************************/
-const generateId = () => {
-    // Find out largest id
-    // the '...' transforms the array 'notes' into an individual number
-    const maxId = persons.length > 0
-        ? Math.max(...persons.map(n => n.id))
-        : 0
+const generateId = (min, max) => {
+    return Math.floor(Math.random() * (max - min +1) + min);
+}
 
-    return maxId + 1;
+const generateRandNbr = () => {
+
 }
 
 /****************************
