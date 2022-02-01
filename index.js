@@ -49,6 +49,13 @@ app.get('/api/persons/:id', (request, response) => {
     }
 })
 
+app.get('/api/info', (request, response) => {
+    const nbPeople = persons.length;
+    const today = new Date();
+
+    response.send(`<p>Phonebook has info for ${nbPeople} people</p> <br> ${today}</br>`)
+})
+
 /****************************
  *          POSTS           *
  ***************************/
