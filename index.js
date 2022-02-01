@@ -1,7 +1,9 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 let persons = [
     {
@@ -27,7 +29,7 @@ let persons = [
 ]
 
 /****************************
- *          DELETE          *
+ *            GET           *
  ***************************/
 // Event handler to handle GET request
 app.get('/', (request, response) => {
@@ -110,6 +112,13 @@ const generateId = (min, max) => {
 const generateRandNbr = () => {
 
 }
+
+/****************************
+ *         MIDDLEWARE       *
+ ***************************/
+morgan.token('host', function(req, res) {
+    return req.hostname;
+});
 
 /****************************
  *          LISTEN          *
